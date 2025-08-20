@@ -1,68 +1,51 @@
 # Análise de Dados de Fenotipagem de Alto Rendimento (HTP) com R
 
-![Linguagem](https://img.shields.io/badge/Linguagem-R-blue?style=for-the-badge&logo=r)
+Repositório dedicado ao processamento de dados de VANTs (drones) aplicados à Fenotipagem de Alto Rendimento (HTP) em melhoramento de plantas. As rotinas automatizam a extração de traits a partir de imagens multiespectrais e nuvens de pontos.
 
-## Visão Geral
+### Implementação dos Homeworks 2 e 3 (HTP in Plant Breeding)
+**Nota:** Este repositório foi desenvolvido como parte da avaliação da disciplina "HTP in Plant Breeding", ministrada pelos professores Roberto Fritsche-Neto e Julio Cesar DoVale. O código-base, os dados e a metodologia foram fornecidos pelo **Prof. Roberto Fritsche-Neto**, sendo este trabalho uma implementação e adaptação para a resolução dos exercícios propostos.
 
-> **Nota Importante:** Este repositório foi desenvolvido como parte da avaliação da disciplina "HTP in Plant Breeding", ministrada pelos professores Roberto Fritsche-Neto e Julio Cesar DoVale. O código-base, os dados e a metodologia foram fornecidos pelo **Prof. Roberto Fritsche-Neto**, sendo este trabalho uma implementação e adaptação para a resolução dos exercícios propostos (Homework 2 e 3).
+---
+### 1. Introdução ao Pipeline
+Este projeto apresenta um pipeline completo para extrair múltiplos traços (ou características) agronômicas a partir de dados de sensoriamento remoto. O foco é a automação da análise de centenas de parcelas experimentais, processando ortomosaicos e nuvens de pontos para obter dados fenotípicos de forma rápida e precisa. As análises foram otimizadas com o uso de processamento paralelo.
 
-Este repositório apresenta um pipeline em R para análise de dados de **Fenotipagem de Alto Rendimento (HTP)** em experimentos de melhoramento de plantas. O objetivo é automatizar a coleta de dados fenotípicos a partir de ortomosaicos e nuvens de pontos gerados por VANTs (drones).
+### 2. Metodologia de Análise por Trait
+O pipeline de análise executa as seguintes rotinas de forma sequencial:
 
-## Índice
+- **Extração de Índices de Vegetação e Cobertura de Dossel:** A rotina recorta o ortomosaico geral para cada parcela. Em seguida, aplica uma máscara para remover o solo utilizando o limiar de Otsu sobre o índice ExG (Excess Green). Por fim, calcula índices de vegetação (NGRDI, TGI) e a percentagem de cobertura do dossel para cada parcela limpa.
 
-- [Funcionalidades Principais](#funcionalidades-principais)
-- [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Pré-requisitos e Instalação](#pré-requisitos-e-instalação)
-- [Estrutura de Dados Esperada](#estrutura-de-dados-esperada)
-- [Como Utilizar](#como-utilizar)
-- [Autoria e Contato](#autoria-e-contato)
-- [Direitos Autorais e Uso](#direitos-autorais-e-uso)
+- **Contagem de Plantas (Estande):** Utilizando imagens de estágios fenológicos iniciais, o script realiza a segmentação da vegetação e aplica algoritmos de análise de objetos (via pacote `pliman`) para identificar e contar o número de plantas individuais em cada parcela.
 
-## Funcionalidades Principais
+- **Estimativa de Altura de Plantas:** O script processa nuvens de pontos (`.laz`) de dois voos: um com o solo exposto (Dia 0) e outro com a cultura estabelecida. A altura é calculada de forma robusta, subtraindo a elevação do solo (mediana, P50) da elevação do topo do dossel (percentil 90), minimizando o efeito de outliers.
 
-O pipeline implementa as seguintes análises:
+### 3. Estrutura do Repositório
+/
+├── README.md             # Este arquivo de apresentação
+├── htp_analysis.R        # Script R completo com todas as análises
+└── datasets/
+├── mosaics/
+│   └── ...           # Arquivos de ortomosaico (.tif)
+├── plots/
+│   └── ...           # Arquivos shapefile (.shp) das parcelas
+└── cloudpoints/
+└── ...           # Nuvens de pontos (.txt)
 
-1.  **Extração de Índices de Vegetação e Cobertura de Dossel:**
-    - Recorta o ortomosaico geral para cada parcela individual.
-    - Aplica uma máscara para remover o solo, utilizando o limiar de Otsu sobre o índice de vegetação ExG (*Excess Green*).
-    - Calcula índices de vegetação (ex: NGRDI, TGI) e a percentagem de cobertura do dossel para cada parcela.
+### 4. Como Utilizar
+Para replicar esta análise, siga os passos:
 
-2.  **Contagem de Plantas (Estande):**
-    - Utiliza imagens de estágios fenológicos iniciais.
-    - Realiza a segmentação da vegetação e aplica algoritmos de análise de objetos para identificar e contar o número de plantas em cada parcela.
+1. Clone este repositório.
+2. Organize seus dados na pasta `datasets/` seguindo a estrutura indicada.
+3. Abra o arquivo `htp_analysis.R` no RStudio.
+4. Ajuste o número de cores para processamento paralelo na função `registerDoParallel()`.
+5. Instale os pacotes necessários e execute o script.
 
-3.  **Estimativa de Altura de Plantas:**
-    - Processa nuvens de pontos (`.laz`) de dois momentos: solo exposto (Dia 0) e com a cultura estabelecida (ex: Dia 60).
-    - Calcula a altura da planta subtraindo a elevação do solo (mediana, P50) da elevação do topo do dossel (percentil 90), um método robusto contra *outliers*.
-
-O processamento é otimizado para performance através de computação paralela.
-
-## Tecnologias Utilizadas
-
-Este projeto foi desenvolvido inteiramente em **R** e faz uso dos seguintes pacotes principais:
-
--   `raster` e `sp`: para manipulação de dados geoespaciais (ortomosaicos e shapefiles).
--   `lidR` e `rlas`: para processamento e análise de nuvens de pontos LiDAR.
--   `pliman` e `EBImage`: para análise de imagem e segmentação.
--   `foreach` e `doParallel`: para implementação de processamento paralelo e ganho de performance.
--   `data.table`: para leitura e manipulação eficiente de grandes arquivos de dados.
-
-## Pré-requisitos e Instalação
-
-Para executar este script, você precisará ter o [R](https://cran.r-project.org/) e, preferencialmente, o [RStudio Desktop](https://posit.co/download/rstudio-desktop/) instalados.
-
-Com o R aberto, execute o comando abaixo para instalar todas as bibliotecas necessárias:
-
-```r
-install.packages(c(
-  "raster", 
-  "EBImage", 
-  "foreach", 
-  "doParallel", 
-  "sp", 
-  "tidyr", 
-  "pliman", 
-  "data.table", 
-  "rlas", 
-  "lidR"
-))
+### Pacotes Utilizados
+- raster
+- EBImage
+- foreach
+- doParallel
+- sp
+- pliman
+- data.table
+- rlas
+- lidR

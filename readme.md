@@ -22,12 +22,8 @@ Estimativa de Altura de Plantas:** O script processa nuvens de pontos (`.laz`) d
 ├── README.md             # Este arquivo de apresentação
 ├── htp_analysis.R        # Script R completo com todas as análises
 └── datasets/
-├── mosaics/
-│   └── ...           # Arquivos de ortomosaico (.tif)
 ├── plots/
-│   └── ...           # Arquivos shapefile (.shp) das parcelas
 └── cloudpoints/
-└── ...           # Nuvens de pontos (.txt)
 
 4. Como Utilizar
 Para replicar esta análise, siga os passos:

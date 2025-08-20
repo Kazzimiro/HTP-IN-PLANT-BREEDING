@@ -11,20 +11,25 @@ Este projeto apresenta um pipeline completo para extrair múltiplos traços (ou 
 2. Metodologia de Análise por Trait
 O pipeline de análise executa as seguintes rotinas de forma sequencial:
 
-Extração de Índices de Vegetação e Cobertura de Dossel:** A rotina recorta o ortomosaico geral para cada parcela. Em seguida, aplica uma máscara para remover o solo utilizando o limiar de Otsu sobre o índice ExG (Excess Green). Por fim, calcula índices de vegetação (NGRDI, TGI) e a percentagem de cobertura do dossel para cada parcela limpa.
+**Extração de Índices de Vegetação e Cobertura de Dossel:** A rotina recorta o ortomosaico geral para cada parcela. Em seguida, aplica uma máscara para remover o solo utilizando o limiar de Otsu sobre o índice ExG (Excess Green). Por fim, calcula índices de vegetação (NGRDI, TGI) e a percentagem de cobertura do dossel para cada parcela limpa.
 
-Contagem de Plantas (Estande):** Utilizando imagens de estágios fenológicos iniciais, o script realiza a segmentação da vegetação e aplica algoritmos de análise de objetos (via pacote `pliman`) para identificar e contar o número de plantas individuais em cada parcela.
+**Contagem de Plantas (Estande):** Utilizando imagens de estágios fenológicos iniciais, o script realiza a segmentação da vegetação e aplica algoritmos de análise de objetos (via pacote `pliman`) para identificar e contar o número de plantas individuais em cada parcela.
 
-Estimativa de Altura de Plantas:** O script processa nuvens de pontos (`.laz`) de dois voos: um com o solo exposto (Dia 0) e outro com a cultura estabelecida. A altura é calculada de forma robusta, subtraindo a elevação do solo (mediana, P50) da elevação do topo do dossel (percentil 90), minimizando o efeito de outliers.
+**Estimativa de Altura de Plantas:** O script processa nuvens de pontos (`.laz`) de dois voos: um com o solo exposto (Dia 0) e outro com a cultura estabelecida. A altura é calculada de forma robusta, subtraindo a elevação do solo (mediana, P50) da elevação do topo do dossel (percentil 90), minimizando o efeito de outliers.
 
 3. Estrutura do Repositório
-├── README.md             # Este arquivo de apresentação
-├── htp_analysis.R        # Script R completo com todas as análises
-└── datasets/
-├── plots/
-└── cloudpoints/
+ 
+   3.1 README.md
+   
+   3.2 htp_analysis.R
+          
+   3.3 datasets/
+   
+   3.4 plots/
+   
+   3.5 cloudpoints/
 
-4. Como Utilizar
+5. Como Utilizar
 Para replicar esta análise, siga os passos:
 
 1. Clone este repositório.

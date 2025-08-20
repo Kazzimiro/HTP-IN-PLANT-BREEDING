@@ -1,5 +1,4 @@
 # Análise de Dados de Fenotipagem de Alto Rendimento (HTP) com R
-
 Repositório dedicado ao processamento de dados de VANTs (drones) aplicados à Fenotipagem de Alto Rendimento (HTP) em melhoramento de plantas. As rotinas automatizam a extração de traits a partir de imagens multiespectrais e nuvens de pontos.
 
 ### Implementação dos Homeworks 2 e 3 (HTP in Plant Breeding)

@@ -18,7 +18,6 @@ Contagem de Plantas (Estande):** Utilizando imagens de estágios fenológicos in
 Estimativa de Altura de Plantas:** O script processa nuvens de pontos (`.laz`) de dois voos: um com o solo exposto (Dia 0) e outro com a cultura estabelecida. A altura é calculada de forma robusta, subtraindo a elevação do solo (mediana, P50) da elevação do topo do dossel (percentil 90), minimizando o efeito de outliers.
 
 3. Estrutura do Repositório
-/
 ├── README.md             # Este arquivo de apresentação
 ├── htp_analysis.R        # Script R completo com todas as análises
 └── datasets/

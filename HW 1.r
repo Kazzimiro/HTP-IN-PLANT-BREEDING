@@ -1,3 +1,11 @@
+#################################################     HOMEWORK - HTP IN PLANT BREEDING (HW 4)     ############################################
+#  DISCENTE: JOSÉ ARTUR DE OLIVEIRA CASIMIRO
+#  DOCENTES: ROBERTO FRITSCHE-NETO E JULIO CESAR DoVALE
+
+#contato: artur.casimiro@alu.ufc.br
+#atualização: 20/08/2025
+
+##################################################################################################################################
 # Libraries
 require(imager)
 require(raster)
